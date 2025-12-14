@@ -138,4 +138,194 @@ ${code}
                     <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 flex items-center justify-center">
                         <Code2 className="h-4 w-4 text-emerald-400" />
                     </div>
- 
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm text-white font-medium">{filename}</span>
+                        {code && (
+                            <>
+                                <span className="text-xs text-gray-500">
+                                    {lineNumbers} lines
+                                </span>
+                                <div className="flex gap-1 ml-2">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={handleCopy}
+                                        className={cn(
+                                            "h-7 px-2 text-xs text-gray-400 hover:text-white transition-all",
+                                            copied && "text-green-400 hover:text-green-400"
+                                        )}
+                                    >
+                                        {copied ? (
+                                            <Check className="h-3 w-3 mr-1" />
+                                        ) : (
+                                            <Copy className="h-3 w-3 mr-1" />
+                                        )}
+                                        {copied ? 'Copied' : 'Copy'}
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={handleDownload}
+                                        className="h-7 px-2 text-xs text-gray-400 hover:text-white"
+                                    >
+                                        <Download className="h-3 w-3 mr-1" />
+                                        Export
+                                    </Button>
+                                    {onExplainCode && (
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => onExplainCode(code)}
+                                            className="h-7 px-2 text-xs text-gray-400 hover:text-white"
+                                        >
+                                            <Lightbulb className="h-3 w-3 mr-1" />
+                                            Explain All
+                                        </Button>
+                                    )}
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+                </div>
+
+                {/* Search Bar */}
+                {showSearch && (
+                <div className="px-4 py-2 border-b border-white/10 bg-[#0d1117] flex items-center gap-2">
+                    <Search className="h-4 w-4 text-gray-400" />
+                    <Input
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search in code..."
+                        className="h-8 bg-white/5 border-white/10 text-white text-sm flex-1"
+                        autoFocus
+                    />
+                    {searchResults.length > 0 && (
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs text-gray-400">
+                                {currentSearchIndex + 1} of {searchResults.length}
+                            </span>
+                            <Button
+                                size="icon"
+                                variant="ghost"
+                                onClick={() => setCurrentSearchIndex(Math.max(0, currentSearchIndex - 1))}
+                                className="h-6 w-6 text-gray-400"
+                                disabled={currentSearchIndex === 0}
+                            >
+                                <ChevronUp className="h-3 w-3" />
+                            </Button>
+                            <Button
+                                size="icon"
+                                variant="ghost"
+                                onClick={() => setCurrentSearchIndex(Math.min(searchResults.length - 1, currentSearchIndex + 1))}
+                                className="h-6 w-6 text-gray-400"
+                                disabled={currentSearchIndex === searchResults.length - 1}
+                            >
+                                <ChevronDown className="h-3 w-3" />
+                            </Button>
+                        </div>
+                    )}
+                    <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => {
+                            setShowSearch(false);
+                            setSearchTerm('');
+                        }}
+                        className="h-6 w-6 text-gray-400"
+                    >
+                        <X className="h-3 w-3" />
+                    </Button>
+                </div>
+                )}
+
+                {/* Code Area */}
+            <div ref={containerRef} className="flex-1 overflow-auto bg-[#0d1117] relative" style={{ maxHeight: 'calc(100vh - 200px)' }}>
+                {/* Selection Explain Button */}
+                {selectedText && selectionPosition && onExplainCode && (
+                    <div
+                        className="absolute z-50"
+                        style={{
+                            top: selectionPosition.top - 40,
+                            left: selectionPosition.left,
+                        }}
+                    >
+                        <Button
+                            onClick={() => {
+                                onExplainCode(selectedText);
+                                setSelectedText('');
+                                setSelectionPosition(null);
+                            }}
+                            size="sm"
+                            className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 shadow-lg h-8 text-xs"
+                        >
+                            <Lightbulb className="h-3 w-3 mr-1" />
+                            Explain Selection
+                        </Button>
+                    </div>
+                )}
+                
+                {/* Coding Animation Overlay */}
+                {isLoading && (
+                    <div className="absolute inset-0 bg-[#0d1117]/80 backdrop-blur-sm z-10 flex items-center justify-center pointer-events-none">
+                        <div className="text-center">
+                            <div className="relative mb-6">
+                                {/* Animated Code Brackets */}
+                                <div className="text-6xl font-mono text-cyan-400 animate-pulse">
+                                    <span className="inline-block animate-bounce" style={{ animationDelay: '0s' }}>&lt;</span>
+                                    <span className="inline-block animate-bounce" style={{ animationDelay: '0.1s' }}>/</span>
+                                    <span className="inline-block animate-bounce" style={{ animationDelay: '0.2s' }}>&gt;</span>
+                                </div>
+                                {/* Glow Effect */}
+                                <div className="absolute inset-0 blur-2xl bg-cyan-500/30 animate-pulse" />
+                            </div>
+                            <div className="flex items-center gap-3 text-cyan-400">
+                                <Loader2 className="h-5 w-5 animate-spin" />
+                                <span className="text-lg font-medium">AI Coding</span>
+                                <div className="flex gap-1">
+                                    <span className="animate-bounce" style={{ animationDelay: '0s' }}>.</span>
+                                    <span className="animate-bounce" style={{ animationDelay: '0.2s' }}>.</span>
+                                    <span className="animate-bounce" style={{ animationDelay: '0.4s' }}>.</span>
+                                </div>
+                            </div>
+                            <p className="text-gray-500 text-sm mt-2">Generating your website...</p>
+                        </div>
+                    </div>
+                )}
+                
+                {code ? (
+                    <div className="flex">
+                        {/* Line Numbers */}
+                        <div className="flex-shrink-0 px-4 py-4 text-right select-none border-r border-white/5">
+                            {Array.from({ length: lineNumbers }, (_, i) => (
+                                <div key={i} className="text-xs text-gray-600 font-mono leading-6">
+                                    {i + 1}
+                                </div>
+                            ))}
+                        </div>
+                        
+                        {/* Code Content */}
+                        <pre className="flex-1 p-4" style={{ whiteSpace: 'pre', overflowWrap: 'normal', overflow: 'visible' }}>
+                            <code 
+                                className="text-sm font-mono leading-6 text-gray-300"
+                                style={{ display: 'inline-block', minWidth: 'max-content' }}
+                                dangerouslySetInnerHTML={{ __html: highlightCode(code) }}
+                            />
+                            <div ref={codeEndRef} />
+                        </pre>
+                    </div>
+                ) : !isLoading ? (
+                    <div className="h-full flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="h-24 w-24 mx-auto rounded-2xl bg-gradient-to-br from-white/5 to-white/0 border border-white/10 flex items-center justify-center mb-4">
+                                <FileCode className="h-12 w-12 text-gray-600" />
+                            </div>
+                            <p className="text-gray-500">Generated code will appear here</p>
+                            <p className="text-gray-600 text-sm mt-1">Copy or export when ready</p>
+                        </div>
+                    </div>
+                ) : null}
+            </div>
+        </div>
+    );
+}
