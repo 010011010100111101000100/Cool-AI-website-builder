@@ -1,8 +1,18 @@
-# Cool-AI-website-builder
-ai Website builder!
+## License & Copyright
 
-Made with REACT and Javascript for most of the code, to run please fork the code or export it in some way to host it. I had to embed the page from base44 so i can host it here since i founnd out it wasnt that easy to host .jsx (react) files on github.
+© 2025 (@010011010100111101000100). All rights reserved.
 
-Credit to Base44 i used it to borrow the invokellm ai for the ai coding of the ai website generation function.
+This project, **Cool AI Website Builder**, is open-source and provided for personal and educational use. You are free to:
+
+- **View** and **use** the code for learning or experimentation.  
+- **Modify** and **adapt** the project for your own projects.  
+
+**Restrictions:**  
+
+- You **may not** use this project or its code for commercial purposes without explicit permission.  
+- You **may not** remove or alter this copyright notice.  
+- Any redistribution of this project must include this notice.  
+
+For questions or commercial inquiries, please contact [chessme012@gmail.com].
 
 ACCESS HERE: https://010011010100111101000100.github.io/Cool-AI-website-builder/
