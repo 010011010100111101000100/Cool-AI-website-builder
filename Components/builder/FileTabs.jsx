@@ -58,4 +58,39 @@ export default function FileTabs({ files, activeFile, onSelectFile, onAddFile, o
                     )}
                 </div>
             ))}
- 
+            
+            {isAdding ? (
+                <div className="flex items-center gap-1 bg-white/5 border border-white/10 rounded-lg px-2 py-1">
+                    <Input
+                        value={newFileName}
+                        onChange={(e) => setNewFileName(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') handleAddFile();
+                            if (e.key === 'Escape') setIsAdding(false);
+                        }}
+                        placeholder="filename.ext"
+                        className="h-6 w-32 text-xs bg-transparent border-none text-white px-1"
+                        autoFocus
+                    />
+                    <Button
+                        size="icon"
+                        onClick={handleAddFile}
+                        className="h-6 w-6 bg-green-500/20 hover:bg-green-500/30"
+                    >
+                        <FileCode className="h-3 w-3 text-green-400" />
+                    </Button>
+                </div>
+            ) : (
+                <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setIsAdding(true)}
+                    className="h-7 text-gray-400 hover:text-white"
+                >
+                    <Plus className="h-3 w-3 mr-1" />
+                    Add File
+                </Button>
+            )}
+        </div>
+    );
+}
