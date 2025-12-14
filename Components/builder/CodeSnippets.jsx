@@ -138,4 +138,5 @@ export default function CodeSnippets({ isOpen, onClose, onInsertSnippet }) {
                 </div>
             </DialogContent>
         </Dialog>
- 
+    );
+}
