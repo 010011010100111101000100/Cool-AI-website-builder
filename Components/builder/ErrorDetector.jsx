@@ -86,4 +86,50 @@ export default function ErrorDetector({ code, onFixError }) {
                         <AlertTriangle className="h-5 w-5 text-red-400 animate-pulse" />
                     </div>
                     <div className="flex-1 min-w-0">
- 
+                        <h3 className="text-red-400 font-semibold text-sm mb-1">
+                            ⚠️ WARNING: ERROR DETECTED IN CODE
+                        </h3>
+                        <p className="text-red-300/80 text-xs mb-3 break-words">
+                            {error}
+                        </p>
+                        <div className="flex gap-2">
+                            <Button
+                                onClick={handleFix}
+                                disabled={isFixing}
+                                className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-400 hover:to-orange-400 text-white h-8 text-xs"
+                            >
+                                {isFixing ? (
+                                    <>
+                                        <Zap className="h-3 w-3 mr-2 animate-spin" />
+                                        Fixing...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Zap className="h-3 w-3 mr-2" />
+                                        Auto Fix
+                                    </>
+                                )}
+                            </Button>
+                            <Button
+                                onClick={() => onFixError(error, true)}
+                                disabled={isFixing}
+                                variant="outline"
+                                className="border-red-500/30 text-red-400 hover:bg-red-500/10 h-8 text-xs"
+                            >
+                                Debug Assistant
+                            </Button>
+                        </div>
+                    </div>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setIsVisible(false)}
+                        className="h-6 w-6 text-red-400 hover:text-red-300"
+                    >
+                        <X className="h-3 w-3" />
+                    </Button>
+                </div>
+            </motion.div>
+        </AnimatePresence>
+    );
+}
