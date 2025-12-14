@@ -1,0 +1,43 @@
+{
+  "name": "Conversation",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the conversation"
+    },
+    "messages": {
+      "type": "array",
+      "description": "Chat messages",
+      "items": {
+        "type": "object"
+      }
+    },
+    "files": {
+      "type": "object",
+      "description": "Generated files (filename: code)",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "active_file": {
+      "type": "string",
+      "description": "Currently active file",
+      "default": "index.html"
+    },
+    "preview_url": {
+      "type": "string",
+      "description": "Preview thumbnail or screenshot URL"
+    },
+    "versions": {
+      "type": "array",
+      "description": "Version history",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
