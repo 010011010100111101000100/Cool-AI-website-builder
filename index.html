@@ -163,7 +163,7 @@ if(storedFact === today){
 document.getElementById('fact').innerText = factText;
 
 let progressBar = document.querySelector('.progress-bar');
-let loadTime = 10000 + Math.random()*5000;
+let loadTime = 20000 + Math.random()*5000;
 let start = null;
 function animateProgress(timestamp){
   if(!start) start = timestamp;
