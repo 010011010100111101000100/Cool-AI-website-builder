@@ -4,166 +4,254 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cool AI Website Builder</title>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    background: #0a0a0f;
-    font-family: 'Orbitron', sans-serif;
-    color: white;
-  }
-
-  #builderIframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    z-index: 0;
-  }
-
-  #loader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, #0f1219 0%, #1b1f2a 100%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    opacity: 1;
-    transition: opacity 2s ease;
-    overflow: hidden;
-  }
-
-  .loader-text {
-    font-size: 2.5rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-shadow: 0 0 8px #0ff, 0 0 16px #0ff, 0 0 24px #0ff;
-    animation: pulse 1.5s infinite alternate;
-    position: relative;
-    z-index: 10;
-  }
-
-  .loader-subtext {
-    margin-top: 15px;
-    font-size: 1.2rem;
-    color: #0ff;
-    text-shadow: 0 0 4px #0ff;
-    animation: fadeInOut 2s infinite alternate;
-    position: relative;
-    z-index: 10;
-  }
-
-  .progress-container {
-    position: relative;
-    width: 300px;
-    height: 6px;
-    background: rgba(255,255,255,0.05);
-    margin-top: 30px;
-    border-radius: 3px;
-    overflow: hidden;
-    z-index: 10;
-  }
-
-  .progress-bar {
-    position: absolute;
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #00ffff, #8a2be2);
-    animation: progressFill 10s linear forwards;
-  }
-
-  /* Geometric shapes behind text */
-  .shape {
-    position: absolute;
-    border: 2px solid #0ff;
-    border-radius: 50%;
-    opacity: 0.15;
-    animation: rotateShape 10s linear infinite;
-    z-index: 5;
-  }
-
-  .shape1 { width: 150px; height: 150px; top: 20%; left: 10%; }
-  .shape2 { width: 200px; height: 200px; top: 60%; left: 70%; animation-duration: 12s; }
-  .shape3 { width: 100px; height: 100px; top: 40%; left: 50%; animation-duration: 8s; }
-
-  @keyframes rotateShape {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  /* Grid scanning lines */
-  .grid-line {
-    position: absolute;
-    width: 200%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #0ff, transparent);
-    top: 50%;
-    left: -100%;
-    animation: scan 3s linear infinite;
-    opacity: 0.2;
-    z-index: 5;
-  }
-
-  @keyframes scan {
-    0% { left: -100%; }
-    100% { left: 100%; }
-  }
-
-  @keyframes pulse {
-    0% { opacity: 0.5; transform: scale(1); }
-    100% { opacity: 1; transform: scale(1.05); }
-  }
-
-  @keyframes fadeInOut {
-    0% { opacity: 0.4; }
-    100% { opacity: 1; }
-  }
-
-  @keyframes progressFill {
-    0% { width: 0%; }
-    100% { width: 100%; }
-  }
-
-</style>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<style>
+html, body {
+  margin:0;
+  padding:0;
+  height:100%;
+  overflow:hidden;
+  font-family:'Orbitron', sans-serif;
+  background:#0a0a0f;
+  color:white;
+}
+#builderIframe {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border:none;
+  z-index:0;
+}
+#loader {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: radial-gradient(circle at center,#0f1219 0%,#1b1f2a 100%);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
+  opacity:1;
+  transition: opacity 2s ease;
+  overflow:hidden;
+}
+.loader-text {
+  font-size:2.5rem;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  text-shadow:0 0 8px #0ff,0 0 16px #0ff,0 0 24px #0ff;
+  animation:pulse 1.5s infinite alternate;
+  position:relative;
+  z-index:10;
+}
+.loader-subtext {
+  margin-top:15px;
+  font-size:1.2rem;
+  color:#0ff;
+  text-shadow:0 0 4px #0ff;
+  animation:fadeInOut 2s infinite alternate;
+  position:relative;
+  z-index:10;
+}
+.progress-container {
+  position:relative;
+  width:300px;
+  height:6px;
+  background:rgba(255,255,255,0.05);
+  margin-top:30px;
+  border-radius:3px;
+  overflow:hidden;
+  z-index:10;
+}
+.progress-bar {
+  position:absolute;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#00ffff,#8a2be2);
+  transition:all 0.2s;
+}
+.progress-container:hover .progress-bar {
+  filter: brightness(1.5);
+}
+.fact {
+  margin-top:20px;
+  font-size:1rem;
+  text-align:center;
+  max-width:80%;
+  color:#0ff;
+  text-shadow:0 0 4px #0ff;
+  position:relative;
+  z-index:10;
+}
+.theme-switcher {
+  position:fixed;
+  bottom:10px;
+  right:10px;
+  z-index:20;
+  cursor:pointer;
+  padding:8px 12px;
+  border-radius:6px;
+  background:linear-gradient(90deg,#00ffff,#8a2be2);
+  font-size:0.9rem;
+  font-weight:bold;
+  color:#0a0a0f;
+}
+.particle {
+  position:absolute;
+  border-radius:50%;
+  background:#0ff;
+  opacity:0.3;
+  width:15px;
+  height:15px;
+  pointer-events:none;
+}
+@keyframes pulse {
+  0% {opacity:0.5;transform:scale(1);}
+  100% {opacity:1;transform:scale(1.05);}
+}
+@keyframes fadeInOut {
+  0% {opacity:0.4;}
+  100% {opacity:1;}
+}
+</style>
 </head>
 <body>
 
 <iframe id="builderIframe" src="https://cool-website-builder.base44.app"></iframe>
 
 <div id="loader">
-  <!-- Animated shapes -->
-  <div class="shape shape1"></div>
-  <div class="shape shape2"></div>
-  <div class="shape shape3"></div>
-
-  <!-- Scanning grid lines -->
-  <div class="grid-line" style="top:20%; animation-delay:0s;"></div>
-  <div class="grid-line" style="top:50%; animation-delay:1s;"></div>
-  <div class="grid-line" style="top:80%; animation-delay:2s;"></div>
-
   <div class="loader-text">Loading AI Website Builder</div>
   <div class="loader-subtext">Initializing components...</div>
   <div class="progress-container">
     <div class="progress-bar"></div>
   </div>
+  <div class="fact" id="fact"></div>
 </div>
 
+<div class="theme-switcher" id="themeSwitcher">Switch Theme</div>
+
 <script>
-  setTimeout(() => {
-    const loader = document.getElementById('loader');
-    loader.style.opacity = '0';
-    setTimeout(() => loader.style.display = 'none', 2000);
-  }, 10000);
+let facts = [
+  "Honey never spoils.","Bananas are berries, but strawberries aren't.","Octopuses have three hearts.",
+  "Sharks existed before trees.","Butterflies can taste with their feet.","The longest wedding veil was longer than 63 football fields.",
+  "A group of flamingos is called a flamboyance.","Sea otters hold hands while sleeping.","Sloths can hold their breath longer than dolphins.",
+  "Wombat poop is cube-shaped.","Cows have best friends.","Pineapples take about two years to grow.","Dolphins have names for each other.",
+  "Koalas sleep up to 22 hours a day.","Some cats are allergic to humans.","A day on Venus is longer than a year on Venus.",
+  "There are more stars in the universe than grains of sand on Earth.","Rats laugh when tickled.","Butterflies can see red, green, and yellow but not blue.",
+  "The heart of a shrimp is located in its head.","There is a species of jellyfish that is immortal.","A cloud can weigh more than a million pounds.",
+  "Sloths can rotate their heads almost 360 degrees.","Otters use rocks to crack open shells.","Sea cucumbers fight off predators by shooting out their internal organs.",
+  "The Eiffel Tower can be 15 cm taller during the summer.","A day on Mercury lasts 59 Earth days.","Some turtles can breathe through their butts.",
+  "Sharks can live up to 500 years.","An octopus can taste with its arms.","Dragonflies can fly backwards.","The fingerprints of a koala are almost identical to humans.",
+  "Mosquitoes are attracted to people who just ate bananas.","Some frogs can freeze solid and thaw back to life.","The Moon has moonquakes.",
+  "A narwhal's tusk reveals its health and life history.","Slugs have four noses.","The Great Wall of China is not visible from space.",
+  "A group of crows is called a murder.","The human stomach gets a new lining every 3–4 days.","Elephants can't jump.",
+  "Sea stars can regrow their arms.","Giraffes have no vocal cords.","Some birds sleep while flying.",
+  "Otters have dens and use them as rafts.","The heart of a blue whale is as big as a small car.","Wombats can run up to 40 km/h.",
+  "Kangaroos can't walk backwards.","Some spiders can survive underwater for hours.","The fingerprints of humans are unique.",
+  "Some turtles can breathe through their butts.","Bats always turn left when exiting a cave.","A group of ferrets is called a business.",
+  "Apples float because 25% of their volume is air.","Sloths can hold their breath longer than dolphins.","Tardigrades can survive in space.",
+  "Sea horses mate for life.","Butterflies can see colors humans cannot.","There’s a species of lizard that can squirt blood from its eyes.",
+  "Sharks have been around for over 400 million years.","A group of jellyfish is called a smack.","Some fish can walk on land.",
+  "There’s a species of fungus that creates zombie ants.","The human nose can detect over 1 trillion scents.","Otters have thick fur for warmth.",
+  "Cats can drink seawater.","Penguins propose with pebbles.","Some birds can sleep with one eye open.",
+  "Octopuses can edit their RNA.","Some crabs can walk sideways.","Sloths can turn green when algae grow on them.",
+  "Elephants can communicate through vibrations.","The fingerprints of humans are unique.","Some frogs can survive freezing.",
+  "Sea turtles return to the same beach every year.","Some birds can mimic human speech.","The Venus flytrap snaps shut in less than a second.",
+  "Some ants can survive underwater for hours.","The heart of a shrimp is located in its head.","Butterflies taste with their feet.",
+  "Sharks can live for centuries.","A group of owls is called a parliament.","The first oranges weren’t orange.",
+  "The human brain stops growing at 18.","Some cats are allergic to humans.","Octopuses have blue blood."
+];
+
+let today = new Date().toISOString().slice(0,10);
+let storedFact = localStorage.getItem('factOfTheDayDate');
+let factText = '';
+if(storedFact === today){
+  factText = localStorage.getItem('factOfTheDayText');
+} else {
+  factText = facts[Math.floor(Math.random()*facts.length)];
+  localStorage.setItem('factOfTheDayText', factText);
+  localStorage.setItem('factOfTheDayDate', today);
+}
+document.getElementById('fact').innerText = factText;
+
+let progressBar = document.querySelector('.progress-bar');
+let loadTime = 10000 + Math.random()*5000;
+let start = null;
+function animateProgress(timestamp){
+  if(!start) start = timestamp;
+  let elapsed = timestamp - start;
+  let percent = Math.min((elapsed/loadTime)*100,100);
+  progressBar.style.width = percent+'%';
+  if(elapsed<loadTime) requestAnimationFrame(animateProgress);
+}
+requestAnimationFrame(animateProgress);
+
+let loader = document.getElementById('loader');
+let iframe = document.getElementById('builderIframe');
+let sound = new Audio('https://freesound.org/data/previews/520/520618_7037-lq.mp3');
+sound.volume = 0.2;
+sound.play();
+setTimeout(()=>{loader.style.opacity='0';sound.pause();loader.style.display='none';document.body.style.overflow='auto';},loadTime);
+
+let themes = [
+  {bg:'radial-gradient(circle at center,#0f1219 0%,#1b1f2a 100%)',bar:'#00ffff,#8a2be2'},
+  {bg:'radial-gradient(circle at center,#0b0c2f 0%,#2c1f4c 100%)',bar:'#ff00ff,#7fffd4'},
+  {bg:'radial-gradient(circle at center,#1b0f2a 0%,#4c1f3b 100%)',bar:'#ff7fff,#00ff7f'}
+];
+let currentTheme = localStorage.getItem('themeIndex')||0;
+currentTheme=parseInt(currentTheme);
+function applyTheme(i){
+  document.getElementById('loader').style.background=themes[i].bg;
+  document.querySelector('.progress-bar').style.background=`linear-gradient(90deg,${themes[i].bar})`;
+  localStorage.setItem('themeIndex',i);
+}
+applyTheme(currentTheme);
+
+document.getElementById('themeSwitcher').addEventListener('click',()=>{
+  currentTheme=(currentTheme+1)%themes.length;
+  applyTheme(currentTheme);
+});
+
+let particles=[];
+for(let i=0;i<30;i++){
+  let p=document.createElement('div');
+  p.className='particle';
+  p.style.left=Math.random()*window.innerWidth+'px';
+  p.style.top=Math.random()*window.innerHeight+'px';
+  p.vx=(Math.random()-0.5)*1.5;
+  p.vy=(Math.random()-0.5)*1.5;
+  document.body.appendChild(p);
+  particles.push(p);
+}
+document.addEventListener('mousemove',e=>{
+  particles.forEach(p=>{
+    let dx=e.clientX-(parseFloat(p.style.left)+7.5);
+    let dy=e.clientY-(parseFloat(p.style.top)+7.5);
+    let dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<80){
+      let angle=Math.atan2(dy,dx);
+      p.vx=-Math.cos(angle)*2;
+      p.vy=-Math.sin(angle)*2;
+    }
+  });
+});
+function updateParticles(){
+  particles.forEach(p=>{
+    let x=parseFloat(p.style.left)+p.vx;
+    let y=parseFloat(p.style.top)+p.vy;
+    if(x<0||x>window.innerWidth-15)p.vx*=-1;
+    if(y<0||y>window.innerHeight-15)p.vy*=-1;
+    p.style.left=(x)+'px';
+    p.style.top=(y)+'px';
+  });
+  requestAnimationFrame(updateParticles);
+}
+updateParticles();
 </script>
 
 </body>
