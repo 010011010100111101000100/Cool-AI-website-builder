@@ -6,120 +6,19 @@
 <title>Cool AI Website Builder</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 <style>
-html, body {
-  margin:0;
-  padding:0;
-  height:100%;
-  overflow:hidden;
-  font-family:'Orbitron', sans-serif;
-  background:#0a0a0f;
-  color:white;
-}
-#builderIframe {
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  border:none;
-  z-index:0;
-}
-#loader {
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: radial-gradient(circle at center,#0f1219 0%,#1b1f2a 100%);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:20;
-  opacity:1;
-  transition: opacity 2s ease;
-  overflow:hidden;
-}
-.loader-text {
-  font-size:2.5rem;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  text-shadow:0 0 8px #0ff,0 0 16px #0ff,0 0 24px #0ff;
-  animation:pulse 1.5s infinite alternate;
-  position:relative;
-  z-index:10;
-}
-.loader-subtext {
-  margin-top:15px;
-  font-size:1.2rem;
-  color:#0ff;
-  text-shadow:0 0 4px #0ff;
-  animation:fadeInOut 2s infinite alternate;
-  position:relative;
-  z-index:10;
-}
-.progress-container {
-  position:relative;
-  width:300px;
-  height:6px;
-  background:rgba(255,255,255,0.05);
-  margin-top:30px;
-  border-radius:3px;
-  overflow:hidden;
-  z-index:10;
-}
-.progress-bar {
-  position:absolute;
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#00ffff,#8a2be2);
-  transition:all 0.2s;
-}
-.progress-container:hover .progress-bar {
-  filter: brightness(1.5);
-}
-.fact {
-  margin-top:20px;
-  font-size:1rem;
-  text-align:center;
-  max-width:80%;
-  color:#0ff;
-  text-shadow:0 0 4px #0ff;
-  position:relative;
-  z-index:10;
-}
-.theme-switcher {
-  position:fixed;
-  bottom:10px;
-  right:10px;
-  z-index:30;
-  cursor:pointer;
-  padding:8px 12px;
-  border-radius:6px;
-  background:linear-gradient(90deg,#00ffff,#8a2be2);
-  font-size:0.9rem;
-  font-weight:bold;
-  color:#0a0a0f;
-  transition: opacity 0.5s;
-}
-.particle {
-  position:absolute;
-  border-radius:50%;
-  background:#0ff;
-  opacity:0.4;
-  width:30px;
-  height:30px;
-  z-index:25;
-  pointer-events:none;
-}
-@keyframes pulse {
-  0% {opacity:0.5;transform:scale(1);}
-  100% {opacity:1;transform:scale(1.05);}
-}
-@keyframes fadeInOut {
-  0% {opacity:0.4;}
-  100% {opacity:1;}
-}
+html, body {margin:0;padding:0;height:100%;overflow:hidden;font-family:'Orbitron',sans-serif;background:#0a0a0f;color:white;}
+#builderIframe {position:absolute;top:0;left:0;width:100%;height:100%;border:none;z-index:0;opacity:0;transition:opacity 2s ease;}
+#loader {position:absolute;top:0;left:0;width:100%;height:100%;background: radial-gradient(circle at center,#0f1219 0%,#1b1f2a 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:20;opacity:1;transition:opacity 2s ease;overflow:hidden;}
+.loader-text {font-size:2.5rem;letter-spacing:3px;text-transform:uppercase;text-shadow:0 0 8px #0ff,0 0 16px #0ff,0 0 24px #0ff;animation:pulse 1.5s infinite alternate;position:relative;z-index:10;}
+.loader-subtext {margin-top:15px;font-size:1.2rem;color:#0ff;text-shadow:0 0 4px #0ff;animation:fadeInOut 2s infinite alternate;position:relative;z-index:10;}
+.progress-container {position:relative;width:300px;height:6px;background:rgba(255,255,255,0.05);margin-top:30px;border-radius:3px;overflow:hidden;z-index:10;}
+.progress-bar {position:absolute;height:100%;width:0%;background:linear-gradient(90deg,#00ffff,#8a2be2);transition:all 0.2s;}
+.progress-container:hover .progress-bar {filter: brightness(1.5);}
+.fact {margin-top:20px;font-size:1rem;text-align:center;max-width:80%;color:#0ff;text-shadow:0 0 4px #0ff;position:relative;z-index:10;}
+.theme-switcher {position:fixed;bottom:10px;right:10px;z-index:30;cursor:pointer;padding:8px 12px;border-radius:6px;background:linear-gradient(90deg,#00ffff,#8a2be2);font-size:0.9rem;font-weight:bold;color:#0a0a0f;transition: opacity 0.5s;}
+.particle {position:absolute;border-radius:50%;background:#0ff;opacity:0.5;width:30px;height:30px;z-index:25;pointer-events:none;box-shadow:0 0 10px #0ff,0 0 20px #0ff;}
+@keyframes pulse {0% {opacity:0.5;transform:scale(1);}100% {opacity:1;transform:scale(1.05);}}
+@keyframes fadeInOut {0% {opacity:0.4;}100% {opacity:1;}}
 </style>
 </head>
 <body>
@@ -137,109 +36,40 @@ html, body {
 
 <div class="theme-switcher" id="themeSwitcher">Switch Theme</div>
 
+<audio id="loadSound" loop>
+  <source src="https://freesound.org/data/previews/341/341695_62428-lq.mp3" type="audio/mpeg">
+</audio>
+<audio id="doneSound">
+  <source src="https://freesound.org/data/previews/341/341701_62428-lq.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-let facts = [
-"Fact 1","Fact 2","Fact 3","Fact 4","Fact 5","Fact 6","Fact 7","Fact 8","Fact 9","Fact 10","Fact 11","Fact 12",
-"Fact 13","Fact 14","Fact 15","Fact 16","Fact 17","Fact 18","Fact 19","Fact 20","Fact 21","Fact 22","Fact 23","Fact 24",
-"Fact 25","Fact 26","Fact 27","Fact 28","Fact 29","Fact 30","Fact 31","Fact 32","Fact 33","Fact 34","Fact 35","Fact 36",
-"Fact 37","Fact 38","Fact 39","Fact 40","Fact 41","Fact 42","Fact 43","Fact 44","Fact 45","Fact 46","Fact 47","Fact 48",
-"Fact 49","Fact 50","Fact 51","Fact 52","Fact 53","Fact 54","Fact 55","Fact 56","Fact 57","Fact 58","Fact 59","Fact 60",
-"Fact 61","Fact 62","Fact 63","Fact 64","Fact 65","Fact 66","Fact 67","Fact 68","Fact 69","Fact 70","Fact 71","Fact 72",
-"Fact 73","Fact 74","Fact 75","Fact 76","Fact 77","Fact 78","Fact 79","Fact 80","Fact 81","Fact 82","Fact 83","Fact 84",
-"Fact 85","Fact 86","Fact 87","Fact 88","Fact 89","Fact 90","Fact 91","Fact 92","Fact 93","Fact 94","Fact 95","Fact 96",
-"Fact 97","Fact 98","Fact 99","Fact 100"
-];
+let facts=[];for(let i=1;i<=100;i++){facts.push("Fact "+i);}
+let today=new Date().toISOString().slice(0,10);let storedFact=localStorage.getItem('factOfTheDayDate');let factText='';if(storedFact===today){factText=localStorage.getItem('factOfTheDayText');}else{factText=facts[Math.floor(Math.random()*facts.length)];localStorage.setItem('factOfTheDayText',factText);localStorage.setItem('factOfTheDayDate',today);}
+document.getElementById('fact').innerText=factText;
 
-let today = new Date().toISOString().slice(0,10);
-let storedFact = localStorage.getItem('factOfTheDayDate');
-let factText = '';
-if(storedFact === today){
-  factText = localStorage.getItem('factOfTheDayText');
-} else {
-  factText = facts[Math.floor(Math.random()*facts.length)];
-  localStorage.setItem('factOfTheDayText', factText);
-  localStorage.setItem('factOfTheDayDate', today);
-}
-document.getElementById('fact').innerText = factText;
-
-let progressBar = document.querySelector('.progress-bar');
-let loadTime = 20000 + Math.random()*5000;
-let start = null;
-function animateProgress(timestamp){
-  if(!start) start = timestamp;
-  let elapsed = timestamp - start;
-  let percent = Math.min((elapsed/loadTime)*100,100);
-  progressBar.style.width = percent+'%';
-  if(elapsed<loadTime) requestAnimationFrame(animateProgress);
-}
+let progressBar=document.querySelector('.progress-bar');
+let loadTime=20000+Math.random()*10000;
+let start=null;
+function animateProgress(timestamp){if(!start)start=timestamp;let elapsed=timestamp-start;let percent=Math.min((elapsed/loadTime)*100,100);progressBar.style.width=percent+'%';if(elapsed<loadTime)requestAnimationFrame(animateProgress);}
 requestAnimationFrame(animateProgress);
 
-let loader = document.getElementById('loader');
-document.body.style.overflow='hidden';
+let loader=document.getElementById('loader');document.body.style.overflow='hidden';
 
-let themes = [
-  {bg:'radial-gradient(circle at center,#0f1219 0%,#1b1f2a 100%)',bar:'#00ffff,#8a2be2'},
-  {bg:'radial-gradient(circle at center,#0b0c2f 0%,#2c1f4c 100%)',bar:'#ff00ff,#7fffd4'},
-  {bg:'radial-gradient(circle at center,#1b0f2a 0%,#4c1f3b 100%)',bar:'#ff7fff,#00ff7f'}
-];
-let currentTheme = localStorage.getItem('themeIndex')||0;
-currentTheme=parseInt(currentTheme);
-function applyTheme(i){
-  loader.style.background=themes[i].bg;
-  document.querySelector('.progress-bar').style.background=`linear-gradient(90deg,${themes[i].bar})`;
-  localStorage.setItem('themeIndex',i);
-}
+let themes=[{bg:'radial-gradient(circle at center,#0f1219 0%,#1b1f2a 100%)',bar:'#00ffff,#8a2be2'},{bg:'radial-gradient(circle at center,#0b0c2f 0%,#2c1f4c 100%)',bar:'#ff00ff,#7fffd4'},{bg:'radial-gradient(circle at center,#1b0f2a 0%,#4c1f3b 100%)',bar:'#ff7fff,#00ff7f'}];
+let currentTheme=localStorage.getItem('themeIndex')||0;currentTheme=parseInt(currentTheme);
+function applyTheme(i){loader.style.background=themes[i].bg;document.querySelector('.progress-bar').style.background=`linear-gradient(90deg,${themes[i].bar})`;localStorage.setItem('themeIndex',i);}
 applyTheme(currentTheme);
-document.getElementById('themeSwitcher').addEventListener('click',()=>{
-  currentTheme=(currentTheme+1)%themes.length;
-  applyTheme(currentTheme);
-});
+document.getElementById('themeSwitcher').addEventListener('click',()=>{currentTheme=(currentTheme+1)%themes.length;applyTheme(currentTheme);});
 
-let particles=[];
-for(let i=0;i<20;i++){
-  let p=document.createElement('div');
-  p.className='particle';
-  p.style.left=Math.random()*window.innerWidth+'px';
-  p.style.top=Math.random()*window.innerHeight+'px';
-  p.vx=(Math.random()-0.5)*2;
-  p.vy=(Math.random()-0.5)*2;
-  loader.appendChild(p);
-  particles.push(p);
-}
-document.addEventListener('mousemove',e=>{
-  particles.forEach(p=>{
-    let dx=e.clientX-(parseFloat(p.style.left)+15);
-    let dy=e.clientY-(parseFloat(p.style.top)+15);
-    let dist=Math.sqrt(dx*dx+dy*dy);
-    if(dist<100){
-      p.vx-=dx*0.02;
-      p.vy-=dy*0.02;
-    }
-  });
-});
-function updateParticles(){
-  particles.forEach(p=>{
-    p.vy+=0.05; // gravity
-    p.vx*=0.99; // friction
-    p.vy*=0.99;
-    let x=parseFloat(p.style.left)+p.vx;
-    let y=parseFloat(p.style.top)+p.vy;
-    if(x<0){x=0;p.vx*=-0.8;}
-    if(x>window.innerWidth-30){x=window.innerWidth-30;p.vx*=-0.8;}
-    if(y<0){y=0;p.vy*=-0.8;}
-    if(y>window.innerHeight-30){y=window.innerHeight-30;p.vy*=-0.8;}
-    p.style.left=x+'px';
-    p.style.top=y+'px';
-  });
-  requestAnimationFrame(updateParticles);
-}
+let particles=[];for(let i=0;i<30;i++){let p=document.createElement('div');p.className='particle';p.style.left=Math.random()*window.innerWidth+'px';p.style.top=Math.random()*window.innerHeight+'px';p.vx=(Math.random()-0.5)*2;p.vy=(Math.random()-0.5)*2;loader.appendChild(p);particles.push(p);}
+document.addEventListener('mousemove',e=>{particles.forEach(p=>{let dx=e.clientX-(parseFloat(p.style.left)+15);let dy=e.clientY-(parseFloat(p.style.top)+15);let dist=Math.sqrt(dx*dx+dy*dy);if(dist<100){p.vx-=dx*0.05;p.vy-=dy*0.05;}});});
+function updateParticles(){particles.forEach(p=>{p.vy+=0.05;p.vx*=0.99;p.vy*=0.99;let x=parseFloat(p.style.left)+p.vx;let y=parseFloat(p.style.top)+p.vy;if(x<0){x=0;p.vx*=-0.8;}if(x>window.innerWidth-30){x=window.innerWidth-30;p.vx*=-0.8;}if(y<0){y=0;p.vy*=-0.8;}if(y>window.innerHeight-30){y=window.innerHeight-30;p.vy*=-0.8;}p.style.left=x+'px';p.style.top=y+'px';});requestAnimationFrame(updateParticles);}
 updateParticles();
 
-setTimeout(()=>{
-  loader.style.opacity='0';
-  document.getElementById('themeSwitcher').style.display='none';
-  setTimeout(()=>{loader.style.display='none';document.body.style.overflow='auto';},2000);
-},loadTime);
+let loadAudio=document.getElementById('loadSound');let doneAudio=document.getElementById('doneSound');loadAudio.volume=0.2;doneAudio.volume=0.5;loadAudio.play();
+
+setTimeout(()=>{loader.style.opacity='0';document.getElementById('themeSwitcher').style.display='none';document.getElementById('builderIframe').style.opacity='1';loadAudio.pause();doneAudio.play();setTimeout(()=>{loader.style.display='none';document.body.style.overflow='auto';},2000);},loadTime);
 </script>
 
 </body>
